@@ -1,3 +1,5 @@
+from collections import deque
+
 class TrieNode:
     def __init__(self):
         self.children = {}
@@ -79,3 +81,59 @@ class Trie:
         words = []
         _helper(node, prefix, words)
         return words
+    
+    # find smallest value
+    def find_smallest_word(self):
+        q = deque()
+        q.append(("", self.root))
+
+        while q:
+            word, node = q.popleft()
+            if node.is_end:
+                return word
+            for char in node.children:
+                q.append((word+char, node.children[char]))
+
+        
+if __name__ == "__main__" :
+    trie = Trie()
+
+    # ✅ Insert words
+    print("🔹 Inserting words...")
+    words = ["man", "mango", "apple", "bat", "banana", "app"]
+    for w in words:
+        trie.insert(w)
+    print("✅ Words inserted:", words)
+    print()
+
+    # 🔍 Search for words
+    print("🔹 Testing search():")
+    tests = ["man", "mango", "bat", "cat"]
+    for t in tests:
+        print(f"search('{t}') →", trie.search(t))
+    print()
+
+    # 🔎 Test starts_with()
+    print("🔹 Testing starts_with():")
+    prefixes = ["ma", "ban", "ap", "ca"]
+    for p in prefixes:
+        print(f"starts_with('{p}') →", trie.starts_with(p))
+    print()
+
+    # 💬 Test find_words_with_prefix()
+    print("🔹 Testing find_words_with_prefix():")
+    prefix_tests = ["ma", "ap", "b", "z"]
+    for p in prefix_tests:
+        print(f"Words with prefix '{p}':", trie.find_words_with_prefix(p))
+    print()
+
+    # ❌ Test delete()
+    print("🔹 Testing delete():")
+    print("Before delete 'mango' → search('mango') =", trie.search("mango"))
+    trie.delete("mango")
+    print("After delete 'mango' → search('mango') =", trie.search("mango"))
+    print("Check prefix 'ma' after delete →", trie.find_words_with_prefix("ma"))
+    print()
+
+    # 🪶 Find smallest word (by length)
+    print("🔹 Smallest word in Trie (by length):", trie.find_smallest_word())
