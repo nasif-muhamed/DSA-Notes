@@ -94,6 +94,23 @@ class Trie:
             for char in node.children:
                 q.append((word+char, node.children[char]))
 
+    # find count of words
+    def count_words(self, prefix=""):
+        node = self.root
+        for char in prefix:
+            if char not in node.children:
+                return 0
+            node = node.children[char]
+
+        def _count(node):
+            count = 1 if node.is_end else 0
+            for child in node.children.values():
+                count += _count(child)
+            return count
+
+        return _count(node)
+
+
         
 if __name__ == "__main__" :
     trie = Trie()
@@ -137,3 +154,6 @@ if __name__ == "__main__" :
 
     # 🪶 Find smallest word (by length)
     print("🔹 Smallest word in Trie (by length):", trie.find_smallest_word())
+
+    # Find count of Words
+    print("🔹 Find the Totel count Of Words in Trie:", trie.count_words())
