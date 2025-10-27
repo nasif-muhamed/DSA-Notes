@@ -130,6 +130,19 @@ class LinkedList:
         _reverse(self.head)
         print()
 
+    def delete_mid(self):
+        if self.head is None:
+            return
+        slow = fast = self.head
+        prev = None
+        while fast and fast.ref:
+            prev = slow
+            slow = slow.ref
+            fast = fast.ref.ref
+        if prev is None:
+            self.head = None
+        else:
+            prev.ref = slow.ref
 
 if __name__ == "__main__":
     ll = LinkedList()
