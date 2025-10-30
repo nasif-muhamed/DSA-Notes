@@ -29,9 +29,7 @@ def quick_sort_in_place(arr, low, high):
 def partition(arr, low, high):
     pivot = arr[high]  # Choose the last element as pivot
     i = low - 1
-    print('i', i)
     for j in range(low, high):
-        print('j', j)
         if arr[j] <= pivot:
             i += 1
             arr[i], arr[j] = arr[j], arr[i]  # Swap
