@@ -135,3 +135,74 @@ if __name__ == "__main__":
 
     print("Level Order:")
     tree.level_order()
+
+
+# N - ary Tree
+class Node:
+    def __init__(self, val, size):
+        self.val = val
+        self.children = [None] * size
+
+    def __repr__(self):
+        return f'Node({self.val}, {self.children})'
+
+class NAryTree:
+    def __init__(self, size):
+        self.size = size
+        self.root = None
+
+    def insert(self, val):
+        new_node = Node(val, self.size)
+        if self.root is None:
+            self.root = new_node
+            return
+        
+        queue = [self.root]
+        while queue:
+            node = queue.pop(0)
+            for idx, child in enumerate(node.children):
+                if child is None:
+                    node.children[idx] = new_node
+                    return
+                queue.append(child)
+
+    def search(self, val):
+        if self.root is None:
+            return None
+        
+        queue = [self.root]
+        while queue:
+            node = queue.pop(0)
+            if node.val == val:
+                return node
+            for child in node.children:
+                if child is not None:
+                    queue.append(child)
+        return None
+
+    def lvl_order(self):
+        if self.root is None:
+            return print([])
+
+        queue = [self.root]
+        while queue:
+            for _ in range(len(queue)):
+                node = queue.pop(0)
+                print(node.val, end='\t')
+                for child in node.children:
+                    if child is not None:
+                        queue.append(child)
+            print()
+
+
+tree = NAryTree(3)
+print(tree.search(5))
+tree.insert(1)
+tree.insert(2)
+tree.insert(3)
+tree.insert(4)
+tree.insert(5)
+print(tree.search(5))
+print(tree.search(6))
+
+tree.lvl_order()  # Output: [1, 2, 3, 4, 5]
