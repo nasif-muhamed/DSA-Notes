@@ -134,7 +134,7 @@ class HashTableLL:
         while curr:
             if curr.key == key:
                 if prev is None:
-                    self.table[index] = None
+                    self.table[index] = curr.next
                 else:
                     prev.next = curr.next
                 self.count -= 1
