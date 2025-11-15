@@ -115,7 +115,7 @@ class BST:
         _postorder(self.root)
         print()
 
-    # Level-order traversal
+    # BFS - Level-order traversal
     def level_order(self):
         if not self.root:
             print('Empty Tree')
@@ -132,6 +132,22 @@ class BST:
                 if node.right:
                     queue.append(node.right)
             print()
+
+    # DFS - Level-order traversal
+    def level_order_dfs(self):
+        result=[]
+        if not self.root:
+            return result
+        def dfs(level, node):
+            if len(result)==level:
+                result.append([])
+            result[level].append(node.key)
+            if node.left:
+                dfs(level+1, node.left)
+            if node.right:
+                dfs(level+1, node.right)
+        dfs(0, self.root)
+        return result
 
 
 # Alternative methods using recursion
@@ -325,8 +341,8 @@ class AdvancedBST(AlternativeBST):
             return False
 
         # Validate left and right subtrees with updated bounds
-        return (AdvancedBST.validate(node.left, min_val, node.key) and
-                AdvancedBST.validate(node.right, node.key, max_val))
+        return (AdvancedBST.is_bst(node.left, min_val, node.key) and
+                AdvancedBST.is_bst(node.right, node.key, max_val))
 
 
 
@@ -340,7 +356,7 @@ if __name__ == '__main__':
     bst.insert(75)
     bst.insert(125)
     bst.insert(175)
-    print('Is BST:', bst.validate(bst.root))
+    print('Is BST:', bst.is_bst(bst.root))
     bst.inorder()
     bst.preorder()
     bst.postorder()
@@ -354,4 +370,5 @@ if __name__ == '__main__':
     bst.inorder()
     print("Level Order:")
     bst.level_order()
+    print("Level Order DFS:", bst.level_order_dfs())
 
